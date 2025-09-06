@@ -58,6 +58,18 @@
 .back-link {font-size:13px; color:var(--accent); text-decoration:none;}
 .back-link:hover {text-decoration:underline;}
 
+
+.header-nav{display:flex;align-items:center;gap:18px}
+.header-nav a{color:var(--ink);opacity:.9;text-decoration:none;font-size:14px;font-weight:600}
+.header-nav a:hover{opacity:1;text-decoration:underline;color:var(--accent)}
+
+
+.header-nav{display:flex;align-items:center;gap:18px}
+.header-nav a{color:var(--ink);opacity:.9;text-decoration:none;font-size:14px;font-weight:600;position:relative;overflow:hidden}
+.header-nav a::after{content:'';position:absolute;left:0;bottom:-2px;width:100%;height:2px;background:var(--accent);transform:translateX(-100%);transition:transform .25s ease}
+.header-nav a:hover{opacity:1;color:var(--accent)}
+.header-nav a:hover::after{transform:translateX(0)}
+
 </style>
 </head>
 <body>
@@ -67,11 +79,7 @@
       <img src="logo.png" alt="MBS LLC logo" class="brand-logo" />
       <div><h1 class="site-title">MBS LLC</h1></div>
     </div>
-    <nav>
-      <a href="index.html">Phases</a>
-      <a href="services.html">Services</a>
-      <a href="https://monday.com" target="_blank" rel="noopener">Monday.com</a>
-    </nav>
+    <nav class="header-nav"><a href="services.html">Services</a><a href="#">Community</a><a href="#">Real Estate</a><a href="https://monday.com" target="_blank" rel="noopener">Monday.com</a></nav>
   </div>
 </header>
 
@@ -124,7 +132,7 @@
     </div>
   </section>
 
-  <footer>Version 1.9</footer>
+  <footer>Version 2.2</footer>
 </main>
 
 <script>

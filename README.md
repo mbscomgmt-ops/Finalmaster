@@ -1,4 +1,4 @@
-# MBS Phases Site (v1.9)
+# MBS Phases Site (v2.2)
 
 A single-file, iPad/iPhone-friendly phases page with:
 - Phase bubbles with live progress bars
@@ -45,10 +45,16 @@ Open `services.html` for a live metrics dashboard:
 - Linked from the header on all pages
 
 
-### Extras in v1.9
+### Extras in v2.2
 - Jobs by Service Type (bar)
 - Revenue by Region (donut)
 - Tech Utilization (bar)
 - Prefilled defaults tuned for MBS Handy Services
 
 - Added Back to Phases link in Services page hero section.
+
+- Updated header nav: Services & Monday.com links appear side-by-side as a right-side menu.
+
+- Added smooth hover underline animation to Services & Monday.com nav links (all pages).
+
+- Expanded nav menu: added placeholders for Community & Real Estate (future MBS brand sections).
