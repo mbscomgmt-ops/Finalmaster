@@ -223,7 +223,7 @@ label.chk.sub{background:transparent;border:1px dashed rgba(255,255,255,.1)}
 
 /* Blurred background photo layer */
 .bg-blur{
-  position:fixed; inset:0; z-index:-1;
+  position:fixed; inset:0; z-index:-2 !important;
   background-image:url('bg.png');
   background-size:cover; background-position:center;
   filter:blur(12px);
@@ -270,7 +270,7 @@ header{background:linear-gradient(to bottom, rgba(7,17,29,.75), rgba(7,17,29,.35
 
 
 /* Dark overlay on top of background for better text contrast */
-.bg-overlay{position:fixed; inset:0; z-index:-2; background:linear-gradient(to bottom right, rgba(0,0,0,.55), rgba(0,0,0,.35));}
+.bg-overlay{position:fixed; inset:0; z-index:-2 !important; background:linear-gradient(to bottom right, rgba(0,0,0,.55), rgba(0,0,0,.35));}
 
 
 .bg-blur, .bg-overlay{
@@ -298,6 +298,15 @@ header{background:linear-gradient(to bottom, rgba(7,17,29,.75), rgba(7,17,29,.35
     </div>
 
 </header>
+<aside class="side-drawer" aria-hidden="true"><nav>
+<a href="index.html">Home</a>
+<a href="services.html">Services</a>
+<a href="#">Community</a>
+<a href="#">Real Estate</a>
+<a href="https://monday.com" target="_blank" rel="noopener">Monday.com</a>
+<a href="https://quickbooks.intuit.com" target="_blank" rel="noopener">QuickBooks</a>
+</nav></aside>
+
 
   
 
@@ -321,7 +330,7 @@ header{background:linear-gradient(to bottom, rgba(7,17,29,.75), rgba(7,17,29,.35
       
     </div>
 
-    <footer>Version 3.2</footer>
+    <footer>Version 3.3</footer>
   </main>
 
 <script>

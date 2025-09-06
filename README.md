@@ -1,4 +1,4 @@
-# MBS Phases Site (v3.2)
+# MBS Phases Site (v3.3)
 
 A single-file, iPad/iPhone-friendly phases page with:
 - Phase bubbles with live progress bars
@@ -45,7 +45,7 @@ Open `services.html` for a live metrics dashboard:
 - Linked from the header on all pages
 
 
-### Extras in v3.2
+### Extras in v3.3
 - Jobs by Service Type (bar)
 - Revenue by Region (donut)
 - Tech Utilization (bar)
@@ -80,3 +80,5 @@ Open `services.html` for a live metrics dashboard:
 - Added a dark overlay gradient on top of the background photo for clearer text/box contrast.
 
 - Fixed background layering: photo + overlay are now fully behind all content (z-index corrected).
+
+- Repair: ensured phases sections and side menu exist; corrected z-index and reinserted toggle scripts where missing.
