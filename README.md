@@ -1,4 +1,4 @@
-# MBS Phases Site (v1.6)
+# MBS Phases Site (v1.9)
 
 A single-file, iPad/iPhone-friendly phases page with:
 - Phase bubbles with live progress bars
@@ -35,3 +35,20 @@ Use the **Reset progress** button or clear your browser's LocalStorage key: `mbs
 
 ## Logo
 Replace `logo.svg` with your company logo using the same filename to update the header.
+
+
+## Services & Metrics Page
+Open `services.html` for a live metrics dashboard:
+- Editable JSON box with LocalStorage persistence
+- Metric tiles (Bookings, AOV, Completion Time, Deposit Rate, Conversion, On-time Arrival, Revenue MTD/YTD)
+- Two sparkline charts (Bookings, Revenue) over the last 12 weeks
+- Linked from the header on all pages
+
+
+### Extras in v1.9
+- Jobs by Service Type (bar)
+- Revenue by Region (donut)
+- Tech Utilization (bar)
+- Prefilled defaults tuned for MBS Handy Services
+
+- Added Back to Phases link in Services page hero section.

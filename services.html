@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MBS Services — Metrics Dashboard</title>
+<style>
+  :root{
+    --navy:#0b1b2b; --navy-2:#0f2740; --ink:#e8eef6; --muted:#9fb1c9;
+    --accent:#e93b2f; --card:#10263d; --card-2:#173450; --ring:0 0 0 2px rgba(255,255,255,.07), 0 10px 30px rgba(0,0,0,.35);
+    --radius:18px; --radius-sm:12px;
+  }
+  *{box-sizing:border-box} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;color:var(--ink);background:#07111d}
+  header{position:sticky;top:0;z-index:10;background:linear-gradient(to bottom, rgba(7,17,29,.9), rgba(7,17,29,.65));backdrop-filter:saturate(120%) blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px 20px}
+  .header-row{display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand-logo{width:48px;height:48px;border-radius:10px;box-shadow:var(--ring);object-fit:contain;background:#000}
+  .site-title{margin:0;font-size:18px;letter-spacing:.4px}
+  nav a{color:var(--ink);opacity:.9;text-decoration:none;margin-left:14px}
+  nav a:hover{opacity:1;text-decoration:underline;color:var(--accent)}
+
+  .hero{display:flex;flex-direction:column;gap:6px; margin:18px 0 8px}
+  .hero h1{margin:0;font-size:26px}
+  .hero p{margin:0;color:var(--muted)}
+
+  /* Tiles */
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .tile{background:linear-gradient(180deg,var(--card),var(--card-2));border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;box-shadow:var(--ring)}
+  .tile h3{margin:0 0 8px 0;font-size:13px;color:#cddaf0}
+  .tile .big{font-size:24px;font-weight:800}
+  .delta{font-size:12px;color:var(--muted)}
+
+  /* Charts */
+  .charts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+  .card{background:linear-gradient(180deg,var(--card),var(--card-2));border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:14px;box-shadow:var(--ring)}
+  .card h3{margin:0 0 8px 0;font-size:14px}
+  svg{width:100%;height:160px}
+
+  /* Editor */
+  .editor{margin-top:16px}
+  textarea{width:100%;min-height:160px;background:#0b1b2b;color:var(--ink);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+  .actions{display:flex;gap:10px;margin-top:10px}
+  .btn{background:linear-gradient(180deg,#1a3350,#12283f);border:1px solid rgba(255,255,255,.12);color:var(--ink);font-weight:600;padding:10px 14px;border-radius:12px;cursor:pointer}
+  .btn.secondary{background:transparent}
+  footer{margin:28px 0 40px;color:var(--muted);font-size:12px;text-align:center}
+  @media (max-width:900px){.tiles{grid-template-columns:1fr 1fr}.charts{grid-template-columns:1fr}}
+  @media (max-width:520px){.tiles{grid-template-columns:1fr}}
+
+/* Extra charts */
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px}
+@media (max-width:900px){.grid-3{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.grid-3{grid-template-columns:1fr}}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;font-size:12px;color:var(--muted)}
+.legend .dot{width:10px;height:10px;border-radius:999px;display:inline-block;margin-right:6px}
+
+
+.back-link {font-size:13px; color:var(--accent); text-decoration:none;}
+.back-link:hover {text-decoration:underline;}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap header-row">
+    <div class="brand">
+      <img src="logo.png" alt="MBS LLC logo" class="brand-logo" />
+      <div><h1 class="site-title">MBS LLC</h1></div>
+    </div>
+    <nav>
+      <a href="index.html">Phases</a>
+      <a href="services.html">Services</a>
+      <a href="https://monday.com" target="_blank" rel="noopener">Monday.com</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>Services & Company Metrics</h1>
+    <p><a href='index.html' class='back-link'>&larr; Back to Phases</a></p>
+    <p>Live tiles, charts, and an editable JSON source. Data persists locally.</p>
+  </section>
+
+  <section class="tiles" id="tiles"></section>
+
+  <section class="charts">
+    <div class="card">
+      <h3>Bookings — last 12 weeks</h3>
+      <svg id="chartBookings" viewBox="0 0 100 50" preserveAspectRatio="none" role="img" aria-label="Bookings trend line"></svg>
+    </div>
+    <div class="card">
+      <h3>Revenue — last 12 weeks</h3>
+      <svg id="chartRevenue" viewBox="0 0 100 50" preserveAspectRatio="none" role="img" aria-label="Revenue trend line"></svg>
+    </div>
+  </section>
+
+  <section class="grid-3">
+    <div class="card">
+      <h3>Jobs by Service Type — last 30 days</h3>
+      <svg id="chartService" viewBox="0 0 100 60" preserveAspectRatio="none" role="img" aria-label="Jobs by service type bar chart"></svg>
+      <div class="legend" id="legendService"></div>
+    </div>
+    <div class="card">
+      <h3>Revenue by Region — last 30 days</h3>
+      <svg id="chartRegion" viewBox="0 0 100 60" preserveAspectRatio="none" role="img" aria-label="Revenue by region donut chart"></svg>
+      <div class="legend" id="legendRegion"></div>
+    </div>
+    <div class="card">
+      <h3>Tech Utilization — last 2 weeks</h3>
+      <svg id="chartUtil" viewBox="0 0 100 60" preserveAspectRatio="none" role="img" aria-label="Tech utilization bar chart"></svg>
+      <div class="legend" id="legendUtil"></div>
+    </div>
+  </section>
+
+
+  <section class="editor card">
+    <h3>Metrics Data (JSON)</h3>
+    <p class="delta">Edit values and press <strong>Save</strong>. Your changes are stored in your browser.</p>
+    <textarea id="jsonBox"></textarea>
+    <div class="actions">
+      <button class="btn" id="saveBtn">Save</button>
+      <button class="btn secondary" id="resetBtn">Reset to defaults</button>
+    </div>
+  </section>
+
+  <footer>Version 1.9</footer>
+</main>
+
+<script>
+const KEY='mbs_services_metrics_v17';
+const DEFAULTS={
+  tiles:[
+    {label:'Bookings (MTD)', value:32, delta:'+15% vs last month'},
+    {label:'Average Order Value', value:'$225', delta:'+6% vs last month'},
+    {label:'Avg Completion Time', value:'2.0 hrs', delta:'-5 min vs last week'},
+    {label:'Deposit Collection Rate', value:'97%', delta:'+1 pt'},
+    {label:'Quote → Book Conversion', value:'36%', delta:'+2 pts'},
+    {label:'On-time Arrival', value:'93%', delta:'+1 pt'},
+    {label:'Revenue (MTD)', value:'$7,200', delta:'+19%'},
+    {label:'Revenue (YTD)', value:'$62,480', delta:'+26%'}
+  ],
+  series:{
+    bookings:[8,9,10,7,11,12,12,13,12,14,15,19],
+    revenue:[900,950,880,1020,1100,1090,1200,1300,1250,1400,1550,1720]
+  },
+  breakdowns:{
+    service:[
+      {label:'TV Mounting', count:18},
+      {label:'Dresser Assembly', count:12},
+      {label:'Repairs', count:10},
+      {label:'Appliance Install', count:6},
+      {label:'Other', count:5}
+    ],
+    region:[
+      {label:'San Francisco', value:3200},
+      {label:'East Bay', value:2100},
+      {label:'South Bay', value:1500},
+      {label:'North Bay', value:700}
+    ],
+    utilization:[
+      {label:'Tech A', pct:82},
+      {label:'Tech B', pct:76},
+      {label:'Tech C', pct:64},
+      {label:'Tech D', pct:58}
+    ]
+  }
+};
+
+function getData(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(!raw) return JSON.parse(JSON.stringify(DEFAULTS));
+    return JSON.parse(raw);
+  }catch(e){
+    console.warn('Invalid saved data, using defaults', e);
+    return JSON.parse(JSON.stringify(DEFAULTS));
+  }
+}
+function saveData(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+
+function renderTiles(data){
+  const el=document.getElementById('tiles');
+  el.innerHTML=data.tiles.map(t=>`
+    <div class="tile">
+      <h3>${t.label}</h3>
+      <div class="big">${t.value}</div>
+      <div class="delta">${t.delta||''}</div>
+    </div>`).join('');
+}
+
+function renderLine(svgId, values, stroke){
+  const svg=document.getElementById(svgId);
+  if(!svg) return;
+  const n=values.length;
+  const max=Math.max(...values), min=Math.min(...values);
+  const pad=2;
+  const range=(max-min)||1;
+  const pts=values.map((v,i)=>{
+    const x = pad + (i*(100-2*pad)/(n-1));
+    const y = 50 - pad - ((v-min)*(50-2*pad)/range);
+    return `${x},${y}`;
+  }).join(' ');
+  svg.innerHTML=`<polyline fill="none" stroke="${stroke}" stroke-width="1.5" points="${pts}"/>`+
+                `<circle r="1.4" cx="${pad+(100-2*pad)}" cy="${50-pad-((values[n-1]-min)*(50-2*pad)/range)}" fill="${stroke}"/>`;
+}
+
+function boot(){
+  const data=getData();
+  renderTiles(data);
+  renderLine('chartBookings', data.series.bookings, '#e93b2f');
+  renderLine('chartRevenue', data.series.revenue, '#41d695');
+  // Build derived arrays
+  const svc = (data.breakdowns && data.breakdowns.service) ? data.breakdowns.service : [];
+  const svcItems = svc.map(s=>({l:s.label, v:s.count}));
+  const reg = (data.breakdowns && data.breakdowns.region) ? data.breakdowns.region : [];
+  const regItems = reg.map(r=>({l:r.label, v:r.value}));
+  const util = (data.breakdowns && data.breakdowns.utilization) ? data.breakdowns.utilization : [];
+  const utilItems = util.map(u=>({l:u.label, v:u.pct}));
+  // Colors
+  const reds = ['#e93b2f','#ff7b73','#7a1212','#ffb3ab','#b3261e'];
+  const blues= ['#4ca3ff','#7fb9ff','#2b6cb0','#b6dbff','#174b7a'];
+  const greens=['#41d695','#71e4b4','#1a8f63','#b2f0d8','#0b6244'];
+  renderBars('chartService', svcItems, reds);
+  renderLegend('legendService', svc, reds);
+  renderDonut('chartRegion', regItems, blues);
+  renderLegend('legendRegion', reg, blues);
+  renderBars('chartUtil', utilItems, greens);
+  renderLegend('legendUtil', util, greens);
+  const box=document.getElementById('jsonBox');
+  box.value=JSON.stringify(data, null, 2);
+  document.getElementById('saveBtn').onclick=()=>{
+    try{
+      const next=JSON.parse(box.value);
+      saveData(next); boot();
+    }catch(e){ alert('Invalid JSON. Please fix and try again.'); }
+  };
+  document.getElementById('resetBtn').onclick=()=>{
+    saveData(DEFAULTS); boot();
+  };
+}
+boot();
+
+function renderBars(svgId, items, colorList){
+  const svg=document.getElementById(svgId); if(!svg) return;
+  const max=Math.max(...items.map(i=>i.v));
+  const barW = 12, gap=6;
+  const width = 100, height = 60, leftPad=8, bottomPad=8;
+  let x = leftPad;
+  let points='';
+  svg.innerHTML='';
+  items.forEach((it,idx)=>{
+    const h = max ? ( (height-bottomPad-8) * (it.v/max) ) : 0;
+    const y = (height-bottomPad) - h;
+    const w = barW;
+    const color = colorList[idx % colorList.length];
+    svg.innerHTML += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${color}" rx="1"></rect>`;
+    // label
+    svg.innerHTML += `<text x="${x+w/2}" y="${height-2}" text-anchor="middle" font-size="3" fill="#9fb1c9">${it.l.split(' ')[0]}</text>`;
+    x += (barW + gap);
+  });
+}
+function renderDonut(svgId, items, colorList){
+  const svg=document.getElementById(svgId); if(!svg) return;
+  const cx=30, cy=30, r=20, inner=12;
+  const total = items.reduce((a,b)=>a+b.v,0) || 1;
+  let start=0;
+  svg.innerHTML='';
+  items.forEach((it,idx)=>{
+    const frac=it.v/total;
+    const end=start+frac*2*Math.PI;
+    const x1=cx+r*Math.cos(start), y1=cy+r*Math.sin(start);
+    const x2=cx=r; // dummy to ensure variables exist
+  });
+  // Build arcs manually
+  let ang=0, xPrev=0, yPrev=0;
+  start=0;
+  items.forEach((it,idx)=>{
+    const frac=it.v/total;
+    const end=start+frac*2*Math.PI;
+    const large = frac>0.5 ? 1:0;
+    const x1 = 30 + 20*Math.cos(start), y1 = 30 + 20*Math.sin(start);
+    const x2 = 30 + 20*Math.cos(end),   y2 = 30 + 20*Math.sin(end);
+    const xi = 30 + 12*Math.cos(end),   yi = 30 + 12*Math.sin(end);
+    const xi0= 30 + 12*Math.cos(start), yi0= 30 + 12*Math.sin(start);
+    const color=colorList[idx % colorList.length];
+    const d = `M ${x1} ${y1} A 20 20 0 ${large} 1 ${x2} ${y2} L ${xi} ${yi} A 12 12 0 ${large} 0 ${xi0} ${yi0} Z`;
+    svg.innerHTML += `<path d="${d}" fill="${color}"></path>`;
+    start=end;
+  });
+  // center label
+  svg.innerHTML += `<circle cx="30" cy="30" r="10" fill="rgba(255,255,255,.06)"></circle>`;
+}
+function renderLegend(elId, items, colorList){
+  const el=document.getElementById(elId); if(!el) return;
+  el.innerHTML = items.map((it,idx)=>`<span><span class="dot" style="background:${colorList[idx % colorList.length]}"></span>${it.l||it.label||''} ${it.v?'- '+it.v:''}</span>`).join('');
+}
+
+</script>
+</body>
+</html>
