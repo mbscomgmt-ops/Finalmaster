@@ -1,4 +1,4 @@
-# MBS Phases Site (v3.3)
+# MBS Phases Site (v3.4-stable)
 
 A single-file, iPad/iPhone-friendly phases page with:
 - Phase bubbles with live progress bars
@@ -30,7 +30,7 @@ Edit the `PHASES` array in the `<script>` tag near the bottom of `index.html`:
 - To remove gating, click **Toggle lock (dev)** in the page.
 
 ## Reset Progress
-Use the **Reset progress** button or clear your browser's LocalStorage key: `mbs_phase_progress_v11`.
+Use the **Reset progress** button or clear your browser's LocalStorage key: `mbs_phase_progress_v3.4-stable`.
 
 
 ## Logo
@@ -45,7 +45,7 @@ Open `services.html` for a live metrics dashboard:
 - Linked from the header on all pages
 
 
-### Extras in v3.3
+### Extras in v3.4-stable
 - Jobs by Service Type (bar)
 - Revenue by Region (donut)
 - Tech Utilization (bar)
@@ -82,3 +82,14 @@ Open `services.html` for a live metrics dashboard:
 - Fixed background layering: photo + overlay are now fully behind all content (z-index corrected).
 
 - Repair: ensured phases sections and side menu exist; corrected z-index and reinserted toggle scripts where missing.
+
+
+## Deploy Guidance
+If the last deploys broke layout, use either:
+- **Rollback:** deploy `mbs-phases-site-v3.1.zip` (stable pre-menu changes).
+- **Fix:** deploy `mbs-phases-site-v3.4-stable.zip` (canonical header/menu + background layering).
+
+### Netlify
+- Drag the ZIP or connect repo; publish directory: `/` (no build command).  
+### GitHub Pages
+- Commit files to the repo root; Settings → Pages → Branch: `main` / root.
