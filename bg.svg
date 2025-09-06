@@ -1,0 +1,22 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000' viewBox='0 0 1600 1000'>
+  <defs>
+    <linearGradient id='g1' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0%' stop-color='#0e3660'/>
+      <stop offset='50%' stop-color='#2b5a93'/>
+      <stop offset='100%' stop-color='#0b1b2b'/>
+    </linearGradient>
+    <radialGradient id='r1' cx='20%' cy='20%' r='60%'>
+      <stop offset='0%' stop-color='#ff6b6b' stop-opacity='.6'/>
+      <stop offset='100%' stop-color='#ff6b6b' stop-opacity='0'/>
+    </radialGradient>
+    <radialGradient id='r2' cx='80%' cy='70%' r='50%'>
+      <stop offset='0%' stop-color='#41d695' stop-opacity='.5'/>
+      <stop offset='100%' stop-color='#41d695' stop-opacity='0'/>
+    </radialGradient>
+  </defs>
+  <rect width='1600' height='1000' fill='url(#g1)'/>
+  <circle cx='300' cy='220' r='380' fill='url(#r1)'/>
+  <circle cx='1200' cy='720' r='360' fill='url(#r2)'/>
+  <circle cx='900' cy='250' r='220' fill='#ffffff' opacity='.06'/>
+  <circle cx='400' cy='760' r='200' fill='#ffffff' opacity='.05'/>
+</svg>

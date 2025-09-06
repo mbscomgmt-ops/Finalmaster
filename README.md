@@ -1,4 +1,4 @@
-# MBS Phases Site (v2.7)
+# MBS Phases Site (v3.1)
 
 A single-file, iPad/iPhone-friendly phases page with:
 - Phase bubbles with live progress bars
@@ -45,7 +45,7 @@ Open `services.html` for a live metrics dashboard:
 - Linked from the header on all pages
 
 
-### Extras in v2.7
+### Extras in v3.1
 - Jobs by Service Type (bar)
 - Revenue by Region (donut)
 - Tech Utilization (bar)
@@ -68,3 +68,13 @@ Open `services.html` for a live metrics dashboard:
 - Converted right-side menu into a dropdown on all pages; added **Monday.com** and **QuickBooks** (both open in new tabs).
 
 - Replaced dropdown text label with a hamburger icon button in the header.
+
+- Upgraded Phases checklist: nested subtasks, per-task mini progress, and overall leaf-based progress bars.
+
+- New blurred-photo background with translucent UI so the image shines through.
+- Replaced dropdown menu with a right-side slide-in drawer; trigger is a minimal icon (no button chrome).
+- Removed logo background fill for cleaner header.
+
+- Replaced abstract background with provided custom background photo (`bg.png`).
+
+- Added a dark overlay gradient on top of the background photo for clearer text/box contrast.

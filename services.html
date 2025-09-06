@@ -15,7 +15,7 @@
   .wrap{max-width:1100px;margin:0 auto;padding:18px 20px}
   .header-row{display:flex;align-items:center;justify-content:space-between}
   .brand{display:flex;align-items:center;gap:12px}
-  .brand-logo{width:48px;height:48px;border-radius:10px;box-shadow:var(--ring);object-fit:contain;background:#000}
+  .brand-logo{width:48px;height:48px;border-radius:10px;box-shadow:var(--ring);object-fit:contain;}
   .site-title{margin:0;font-size:18px;letter-spacing:.4px}
   nav a{color:var(--ink);opacity:.9;text-decoration:none;margin-left:14px}
   nav a:hover{opacity:1;text-decoration:underline;color:var(--accent)}
@@ -103,9 +103,66 @@
 .menu-icon::after{bottom:0}
 .menu-icon div{top:50%;transform:translateY(-50%)}
 
+
+/* Blurred background photo layer */
+.bg-blur{
+  position:fixed; inset:0; z-index:-1;
+  background-image:url('bg.png');
+  background-size:cover; background-position:center;
+  filter:blur(12px);
+  transform:scale(1.04); /* avoid edge blur crop */
+}
+/* Make surface elements translucent so background shows through */
+.panel .head{background:rgba(20,35,55,.55)}
+.panel .body{background:rgba(12,26,44,.45)}
+.card{background:rgba(16,38,61,.45)}
+.bubble{background:rgba(16,38,61,.45)}
+header{background:linear-gradient(to bottom, rgba(7,17,29,.75), rgba(7,17,29,.35))}
+
+
+/* Side drawer menu (right) */
+.side-toggle{
+  position:fixed; right:14px; top:14px; z-index:30;
+  background:transparent; border:none; padding:6px; cursor:pointer;
+}
+.side-toggle .arrow, .side-toggle .arrow::before, .side-toggle .arrow::after{
+  content:''; display:block; width:14px; height:2px; background:var(--ink); border-radius:2px;
+  transition:transform .25s ease, opacity .25s ease;
+}
+.side-toggle .arrow::before{margin-top:4px}
+.side-toggle .arrow::after{margin-top:4px}
+/* When drawer open, morph into X */
+.side-open .side-toggle .arrow{transform:rotate(45deg)}
+.side-open .side-toggle .arrow::before{opacity:0}
+.side-open .side-toggle .arrow::after{transform:rotate(90deg) translate(-4px, -4px)}
+
+.side-drawer{
+  position:fixed; top:0; right:0; height:100%; width:240px; z-index:25;
+  background:rgba(10,22,38,.75); backdrop-filter:blur(8px);
+  border-left:1px solid rgba(255,255,255,.12);
+  transform:translateX(100%); transition:transform .25s ease;
+  padding:18px 14px;
+}
+.side-open .side-drawer{transform:translateX(0)}
+.side-drawer nav{display:flex;flex-direction:column;gap:8px;margin-top:40px}
+.side-drawer nav a{
+  color:var(--ink); text-decoration:none; font-weight:700; padding:10px 12px; border-radius:10px;
+  border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04);
+}
+.side-drawer nav a:hover{color:var(--accent); background:rgba(255,255,255,.08)}
+
+
+/* Dark overlay on top of background for better text contrast */
+.bg-overlay{
+  position:fixed; inset:0; z-index:-1;
+  background:linear-gradient(to bottom right, rgba(0,0,0,.55), rgba(0,0,0,.35));
+}
+
 </style>
 </head>
 <body>
+  <div class="bg-blur" aria-hidden="true"></div>
+  <div class="bg-overlay" aria-hidden="true"></div>
 <header>
   <div class="wrap header-row">
     <div class="brand">
@@ -113,20 +170,23 @@
       <div><h1 class="site-title">MBS LLC</h1></div>
     </div>
     
-    <details class="header-menu">
-      <summary aria-label="Open menu"><span class="menu-icon"><div></div></span></summary>
-      <div class="menu-items">
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="#">Community</a>
-        <a href="#">Real Estate</a>
-        <a href="https://monday.com" target="_blank" rel="noopener">Monday.com</a>
-        <a href="https://quickbooks.intuit.com" target="_blank" rel="noopener">QuickBooks</a>
-      </div>
-    </details>
     
+    
+  
+    <button class="side-toggle" aria-label="Toggle menu"><span class="arrow"></span></button>
   </div>
 </header>
+<aside class="side-drawer" aria-hidden="true">
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="#">Community</a>
+    <a href="#">Real Estate</a>
+    <a href="https://monday.com" target="_blank" rel="noopener">Monday.com</a>
+    <a href="https://quickbooks.intuit.com" target="_blank" rel="noopener">QuickBooks</a>
+  </nav>
+</aside>
+
 
 <main class="wrap">
   <section class="hero">
@@ -177,7 +237,7 @@
     </div>
   </section>
 
-  <footer>Version 2.7</footer>
+  <footer>Version 3.1</footer>
 </main>
 
 <script>
@@ -355,6 +415,33 @@ document.addEventListener('click', (e)=>{
   if(!m) return;
   if(!m.contains(e.target)) m.open = false;
 });
+
+function setupSideDrawer(){
+  const btn = document.querySelector('.side-toggle');
+  if(!btn) return;
+  btn.addEventListener('click', ()=>{
+    document.body.classList.toggle('side-open');
+    const open = document.body.classList.contains('side-open');
+    const aside = document.querySelector('.side-drawer');
+    if(aside) aside.setAttribute('aria-hidden', String(!open));
+  });
+  // close on ESC or outside click
+  document.addEventListener('keydown', (e)=>{
+    if(e.key==='Escape') document.body.classList.remove('side-open');
+  });
+  document.addEventListener('click', (e)=>{
+    const aside = document.querySelector('.side-drawer');
+    const toggle = document.querySelector('.side-toggle');
+    if(!aside) return;
+    if(document.body.classList.contains('side-open')){
+      if(!aside.contains(e.target) && !toggle.contains(e.target)){
+        document.body.classList.remove('side-open');
+      }
+    }
+  });
+}
+setupSideDrawer();
+
 </script>
 
 </body>
