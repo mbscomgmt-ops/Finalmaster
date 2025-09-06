@@ -1,4 +1,4 @@
-# MBS Phases Site (v2.5)
+# MBS Phases Site (v2.7)
 
 A single-file, iPad/iPhone-friendly phases page with:
 - Phase bubbles with live progress bars
@@ -45,7 +45,7 @@ Open `services.html` for a live metrics dashboard:
 - Linked from the header on all pages
 
 
-### Extras in v2.5
+### Extras in v2.7
 - Jobs by Service Type (bar)
 - Revenue by Region (donut)
 - Tech Utilization (bar)
@@ -64,3 +64,7 @@ Open `services.html` for a live metrics dashboard:
 - Removed Monday.com link from landing page body (kept in nav only).
 
 - Tidied landing page layout: removed empty header actions and adjusted hero spacing after Monday.com removal.
+
+- Converted right-side menu into a dropdown on all pages; added **Monday.com** and **QuickBooks** (both open in new tabs).
+
+- Replaced dropdown text label with a hamburger icon button in the header.

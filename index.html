@@ -180,6 +180,39 @@ nav a:hover{opacity:1;text-decoration:underline;color:var(--accent)}
 .header-nav a:hover{opacity:1;color:var(--accent)}
 .header-nav a:hover::after{transform:translateX(0)}
 
+
+/* Right-side dropdown menu */
+.header-row{display:flex;align-items:center;justify-content:space-between}
+.header-menu{position:relative;margin-left:auto}
+.header-menu > summary{
+  list-style:none; cursor:pointer; font-weight:700; font-size:14px;
+  color:var(--ink); opacity:.95; padding:8px 12px; border-radius:10px;
+  border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(180deg,#1a3350,#12283f);
+}
+.header-menu[open] > summary{opacity:1; outline:none}
+.header-menu .menu-items{
+  position:absolute; right:0; top:calc(100% + 6px); min-width:210px; z-index:20;
+  background:linear-gradient(180deg,var(--card),var(--card-2));
+  border:1px solid rgba(255,255,255,.12); border-radius:12px; box-shadow:var(--ring);
+  padding:8px;
+}
+.header-menu .menu-items a{
+  display:block; padding:10px 10px; border-radius:8px; text-decoration:none;
+  color:var(--ink); font-size:14px; font-weight:600; position:relative; overflow:hidden;
+}
+.header-menu .menu-items a:hover{background:rgba(255,255,255,.06); color:var(--accent)}
+/* close when clicking outside (JS added) */
+
+
+.menu-icon{width:20px;height:14px;display:inline-block;position:relative}
+.menu-icon::before,
+.menu-icon::after,
+.menu-icon div{content:'';position:absolute;left:0;width:100%;height:3px;background:var(--ink);border-radius:2px}
+.menu-icon::before{top:0}
+.menu-icon::after{bottom:0}
+.menu-icon div{top:50%;transform:translateY(-50%)}
+
 </style>
 </head>
 <body>
@@ -192,7 +225,19 @@ nav a:hover{opacity:1;text-decoration:underline;color:var(--accent)}
           <h1 class="site-title">MBS LLC</h1>
         </div>
       </div>
-      <nav class="header-nav"><a href="index.html">Home</a><a href="services.html">Services</a><a href="#">Community</a><a href="#">Real Estate</a></nav>
+      
+    <details class="header-menu">
+      <summary aria-label="Open menu"><span class="menu-icon"><div></div></span></summary>
+      <div class="menu-items">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="#">Community</a>
+        <a href="#">Real Estate</a>
+        <a href="https://monday.com" target="_blank" rel="noopener">Monday.com</a>
+        <a href="https://quickbooks.intuit.com" target="_blank" rel="noopener">QuickBooks</a>
+      </div>
+    </details>
+    
       
     </div>
 
@@ -220,7 +265,7 @@ nav a:hover{opacity:1;text-decoration:underline;color:var(--accent)}
       
     </div>
 
-    <footer>Version 2.5</footer>
+    <footer>Version 2.7</footer>
   </main>
 
 <script>
@@ -449,6 +494,13 @@ document.getElementById("resetBtn").addEventListener("click", ()=>{
 renderBubbles();
 renderPanels();
 openPanel(1);
+
+document.addEventListener('click', (e)=>{
+  const m = document.querySelector('details.header-menu');
+  if(!m) return;
+  if(!m.contains(e.target)) m.open = false;
+});
 </script>
+
 </body>
 </html>
