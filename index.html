@@ -133,6 +133,22 @@
   @media (max-width:520px){
     .phases{grid-template-columns:1fr}
   }
+
+.monday-link {
+  margin: 16px 0;
+}
+.btn.monday {
+  background: linear-gradient(180deg,#e93b2f,#c92a22);
+  border: 1px solid rgba(255,255,255,.2);
+  color: #fff;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn.monday:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(233,59,47,.5);
+}
+
 </style>
 </head>
 <body>
@@ -146,6 +162,11 @@
     </div>
   </header>
 
+  <div class="monday-link">
+    <a href="https://monday.com" target="_blank" class="btn monday">Open Monday.com</a>
+  </div>
+
+
   <main class="wrap" id="app">
 
     <!-- Phase bubbles (built by JS) -->
@@ -156,10 +177,10 @@
 
     <div class="actions">
       <button class="btn" id="resetBtn" title="Clear all progress">Reset progress</button>
-      <button class="btn secondary" id="devBtn" title="Toggle gating for quick review">Toggle lock (dev)</button>
+      
     </div>
 
-    <footer>Version 1.1</footer>
+    <footer>Version 1.3</footer>
   </main>
 
 <script>
@@ -224,7 +245,7 @@ const PHASES = [
 
 const KEY = "mbs_phase_progress_v11";
 const state = JSON.parse(localStorage.getItem(KEY) || "{}");
-const devUnlock = { on:false };
+
 
 function save(){ localStorage.setItem(KEY, JSON.stringify(state)) }
 
@@ -236,7 +257,6 @@ function phaseProgress(pid){
 }
 
 function prevComplete(pid){
-  if(devUnlock.on) return true;
   if(pid===1) return true;
   const prev = phaseProgress(pid-1);
   return prev.pct===100;
@@ -367,10 +387,7 @@ document.getElementById("resetBtn").addEventListener("click", ()=>{
   Object.keys(state).forEach(k=> delete state[k]);
   renderBubbles(); renderPanels();
 });
-document.getElementById("devBtn").addEventListener("click", ()=>{
-  devUnlock.on = !devUnlock.on;
-  renderBubbles(); renderPanels();
-});
+
 
 renderBubbles();
 renderPanels();

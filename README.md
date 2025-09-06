@@ -1,4 +1,4 @@
-# MBS Phases Site (v1.1)
+# MBS Phases Site (v1.3)
 
 A single-file, iPad/iPhone-friendly phases page with:
 - Phase bubbles with live progress bars
