@@ -270,9 +270,11 @@ header{background:linear-gradient(to bottom, rgba(7,17,29,.75), rgba(7,17,29,.35
 
 
 /* Dark overlay on top of background for better text contrast */
-.bg-overlay{
-  position:fixed; inset:0; z-index:-1;
-  background:linear-gradient(to bottom right, rgba(0,0,0,.55), rgba(0,0,0,.35));
+.bg-overlay{position:fixed; inset:0; z-index:-2; background:linear-gradient(to bottom right, rgba(0,0,0,.55), rgba(0,0,0,.35));}
+
+
+.bg-blur, .bg-overlay{
+  position:fixed; inset:0; z-index:-2 !important;
 }
 
 </style>
@@ -319,7 +321,7 @@ header{background:linear-gradient(to bottom, rgba(7,17,29,.75), rgba(7,17,29,.35
       
     </div>
 
-    <footer>Version 3.1</footer>
+    <footer>Version 3.2</footer>
   </main>
 
 <script>
