@@ -1,4 +1,4 @@
-# MBS Phases Site (v1.4)
+# MBS Phases Site (v1.6)
 
 A single-file, iPad/iPhone-friendly phases page with:
 - Phase bubbles with live progress bars
@@ -31,3 +31,7 @@ Edit the `PHASES` array in the `<script>` tag near the bottom of `index.html`:
 
 ## Reset Progress
 Use the **Reset progress** button or clear your browser's LocalStorage key: `mbs_phase_progress_v11`.
+
+
+## Logo
+Replace `logo.svg` with your company logo using the same filename to update the header.

@@ -149,23 +149,50 @@
   color: var(--accent);
 }
 
+
+/* Header layout */
+.header-row{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-logo{width:40px;height:40px;border-radius:10px;box-shadow:var(--ring)}
+.site-title{margin:0;font-size:18px;letter-spacing:.4px}
+.header-actions{display:flex;align-items:center;gap:12px}
+.hdr-link{font-size:14px;color:var(--ink);opacity:.9;text-decoration:none}
+.hdr-link:hover{opacity:1;text-decoration:underline;color:var(--accent)}
+
+/* Hero */
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;margin:18px 0 6px}
+.hero-title{font-size:26px; margin:0 0 6px 0; letter-spacing:.6px}
+.hero-quote{color:var(--muted); font-size:14px; margin:0}
+
 </style>
 </head>
 <body>
   <header>
-    <div class="wrap brand">
-      <div class="logo" aria-hidden="true"></div>
-      <div>
-        <h1>Four Phases. One Vision.</h1>
-        <div class="tag">Tap a phase bubble to expand its plan. | <a href="https://monday.com" target="_blank" class="monday-link">Monday.com</a></div>
+    
+    <div class="wrap header-row">
+      <div class="brand">
+        <img src="logo.png" alt="MBS LLC logo" class="brand-logo" />
+        <div>
+          <h1 class="site-title">MBS LLC</h1>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a href="https://monday.com" target="_blank" rel="noopener" class="hdr-link monday-link">Monday.com</a>
       </div>
     </div>
-  </header>
+
+</header>
 
   
 
 
   <main class="wrap" id="app">
+
+    <section class="hero">
+      <h2 class="hero-title">FOUR PHASES. One Vision.</h2>
+      <p class="hero-quote" id="dailyQuote"></p>
+    </section>
+
 
     <!-- Phase bubbles (built by JS) -->
     <section class="phases" id="bubbleRow" aria-label="Phase navigation"></section>
@@ -178,10 +205,27 @@
       
     </div>
 
-    <footer>Version 1.4</footer>
+    <footer>Version 1.6</footer>
   </main>
 
 <script>
+
+// Daily quote
+const QUOTES = [
+  "Discipline compounds — tiny wins, big outcomes.",
+  "Systems first. Scale next.",
+  "Move fast, fix alignment, protect quality.",
+  "Every invoice tells a story — make it a good one.",
+  "Clarity beats complexity. Ship the next block."
+];
+(function setDailyQuote(){
+  try {
+    const el = document.getElementById("dailyQuote");
+    const dayIndex = Math.floor(Date.now() / (1000*60*60*24)) % QUOTES.length;
+    if (el) el.textContent = QUOTES[dayIndex];
+  } catch(_) {}
+})();
+
 const PHASES = [
   {
     id: 1, name: "Phase 1 — Foundation", icon:"📍",
